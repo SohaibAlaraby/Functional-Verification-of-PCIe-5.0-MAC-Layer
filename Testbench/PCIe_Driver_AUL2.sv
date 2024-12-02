@@ -40,4 +40,4 @@
         end
     endtask
 
-
+endclass
