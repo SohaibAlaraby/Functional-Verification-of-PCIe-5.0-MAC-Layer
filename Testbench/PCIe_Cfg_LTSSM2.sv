@@ -3,9 +3,7 @@
 // Description: configuration object for down stream LTSSM 2
 // 
 ////////////////////////////////////////////////////////////////////////////////
-package PCIe_Cfg_LTSSM2_pkg ;
-    import uvm_pkg::*;
-        `include "uvm_macros.svh"
+
     class PCIe_Cfg_LTSSM2 extends  uvm_object ;
         `uvm_object_utils(PCIe_Cfg_LTSSM2)
 
@@ -15,4 +13,3 @@ package PCIe_Cfg_LTSSM2_pkg ;
         endfunction
     endclass
 
-endpackage
