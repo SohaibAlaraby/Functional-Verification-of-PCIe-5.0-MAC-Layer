@@ -3,14 +3,6 @@
 // Description: agent for up stream LTSSM 2
 // 
 ////////////////////////////////////////////////////////////////////////////////
-package PCIe_AgentU_LTSSM2_pkg;
-    import uvm_pkg::*;
-        `include "uvm_macros.svh"
-    import PCIe_Seq_Item_pkg::*;
-    import PCIe_Cfg_LTSSM2_pkg::*;
-    import PCIe_Driver_AUL2_pkg::*;
-    import PCIe_Monitor_AUL2_pkg::*;
-    import PCIe_sequencer_AUL2_pkg::*;
 
     class PCIe_AgentU_LTSSM2 extends uvm_agent;
         `uvm_component_utils(PCIe_AgentU_LTSSM2)
@@ -55,4 +47,3 @@ package PCIe_AgentU_LTSSM2_pkg;
             Monitor_AUL2.LPIF_intfD=CFG_L2.vif;
         endfunction
 
-endpackage
