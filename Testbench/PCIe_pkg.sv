@@ -6,6 +6,9 @@ package PCIe_pkg;
     `include "PCIe_Seq_Item.sv"
     `include "PCIe_Sequence_AUM.sv"
     `include "PCIe_Sequence_ADM.sv"
+    `include "linkUp_sequence.sv"
+    `include "PCIe_sequencer_AUL2.sv"
+    `include "PCIe_sequencer_ADL2.sv"
     `include "PCIe_Sequencer_AUM.sv"
     `include "PCIe_Sequencer_ADM.sv"
 
@@ -13,6 +16,8 @@ package PCIe_pkg;
     `include "PCIe_Driver_ADM.sv"
     `include "PCIe_Driver_AUS2.sv"
     `include "PCIe_Driver_ADS2.sv"
+    `include "PCIe_Driver_AUL2.sv"
+    `include "PCIe_Driver_ADL2.sv"
     
     `include "PCIe_Monitor_ADL1.sv"
     `include "PCIe_Monitor_ADL2.sv"
