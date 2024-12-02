@@ -4,15 +4,6 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-package PCIe_AgentD_LTSSM2_pkg;
-    import uvm_pkg::*;
-        `include "uvm_macros.svh"
-    import PCIe_Driver_ADL2_pkg::*;
-    import PCIe_Monitor_ADL2_pkg::*;
-    import PCIe_sequencer_ADL2_pkg::*;
-    import PCIe_Seq_Item_pkg::*;
-    import PCIe_Cfg_LTSSM2_pkg::*;
-
     class PCIe_AgentD_LTSSM2 extends uvm_agent;
         `uvm_component_utils(PCIe_AgentD_LTSSM2)
         PCIe_Cfg_LTSSM2     CFG_L2;
@@ -54,6 +45,3 @@ package PCIe_AgentD_LTSSM2_pkg;
             Monitor_ADL2.LPIF_intfD=CFG_L2.vif;
             Monitor_ADL2.monitor_ADL2_port.connect(LTSSM2_agentD_port);
         endfunction
-
-
-endpackage
