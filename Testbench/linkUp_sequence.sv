@@ -1,8 +1,4 @@
-package linkUp_sequence_pkg;
-    
-    import PCIe_Seq_Item_pkg::*;
-    import uvm_pkg::*;
-        `include "uvm_macros.svh"
+
     class linkUp1_sequence extends uvm_sequence #(PCIe_Seq_Item) ;
         `uvm_object_utils(linkUp1_sequence)
 
