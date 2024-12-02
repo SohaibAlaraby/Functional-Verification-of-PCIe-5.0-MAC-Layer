@@ -16,7 +16,7 @@
     endclass
 
     class reset_sequence extends uvm_sequence #(PCIe_Seq_Item) ;
-        `uvm_component_utils(reset_sequence)
+        `uvm_object_utils(reset_sequence)
 
         PCIe_Seq_Item item;
         function new(string name ="reset_sequence");
