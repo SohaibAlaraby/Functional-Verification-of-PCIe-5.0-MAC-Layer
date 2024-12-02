@@ -4,12 +4,6 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-
-package PCIe_Monitor_ADL2_pkg;
-    import uvm_pkg::*;
-        `include "uvm_macros.svh"
-    import PCIe_Seq_Item_pkg::*;
-
     class PCIe_Monitor_ADL2 extends uvm_monitor;
         `uvm_component_utils(PCIe_Monitor_ADL2)
         virtual LPIF_if LPIF_intfD; //beside LPIF Interface
@@ -45,4 +39,3 @@ package PCIe_Monitor_ADL2_pkg;
         end
     endtask
         
-endpackage
