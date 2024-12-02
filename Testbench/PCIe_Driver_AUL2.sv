@@ -3,12 +3,6 @@
 // Description: driver for up stream LTSSM 2
 // 
 ////////////////////////////////////////////////////////////////////////////////
-
-package PCIe_Driver_AUL2_pkg;
-    
-    import PCIe_Seq_Item_pkg::*;
-    import uvm_pkg::*;
-        `include "uvm_macros.svh"
     class PCIe_Driver_AUL2 extends uvm_driver#(PCIe_Seq_Item);
         `uvm_component_utils(PCIe_Driver_AUL2)
 
@@ -45,5 +39,5 @@ package PCIe_Driver_AUL2_pkg;
             LPIF_vif.lp_state_req=active_;
         end
     endtask
-endpackage
+
 
