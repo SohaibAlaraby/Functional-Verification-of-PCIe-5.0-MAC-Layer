@@ -35,7 +35,7 @@
 
 
     class virtual_sequence extends uvm_sequence #(PCIe_Seq_Item) ;
-        `uvm_component_utils(reset_sequence)
+        `uvm_object_utils(reset_sequence)
 
         uvm_sequencer sqr_u1;
         uvm_sequencer sqr_u2;
