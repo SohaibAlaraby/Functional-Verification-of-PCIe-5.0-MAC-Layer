@@ -3,7 +3,6 @@ interface LPIF_if #(parameter  = ;)();
 
 
 /////LTSSM Related Signals\\\\\
-logic CLK,
 logic lpreset; 
 logic[3:0] lp_state_req;
 logic[3:0] pl_state_sts;
