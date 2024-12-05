@@ -32,8 +32,7 @@ endtask
 task drive_stim (LTSSM1_seq_item);
 case (driver_seq_item.OP) 
 2'b00: begin
-    wait(!driver_vif.phy_reset);
-    wait(driver_vif.phy_reset);
+    @(posedge driver_vif.phy_reset);
     driver_vif.PhyStatus = 1'b1;
     @(posedge driver_vif.CLK);
     driver_vif.PhyStatus = 1'b0;
