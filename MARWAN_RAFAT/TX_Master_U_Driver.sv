@@ -1,6 +1,7 @@
-class TX_Master_U_Driver extends uvm_driver#(TX_Master_seq_item);
+class TX_Master_D_Driver extends uvm_driver#(TX_Master_seq_item);
   
-`uvm_component_utils(TX_Master_U_Driver)
+`uvm_component_utils(TX_Master_D_Driver)
+
 
 virtual LPIF_if LPIF_vif_h;
 TX_Master_seq_item item;
@@ -10,51 +11,55 @@ static int counter=63;
 bit done_TLP,done_DLLP;
 
 bit [7:0] TLLP_data,DLLP_data;
-uvm_analysis_port #(TX_Master_seq_item) send_ap;
+//uvm_analysis_port #(TX_Master_seq_item) send_ap;
 
         
         
-extern function new(string name = "TX_Master_U_Driver",uvm_component parent);
+extern function new(string name = "TX_Master_D_Driver",uvm_component parent);
 extern task run_phase(uvm_phase phase);
 extern task drive (TX_Master_seq_item item);
 extern task set_valid_bits(TX_Master_seq_item item);
 extern task send_TLP_DLLP(TX_Master_seq_item item);
+
 endclass
 
 
 
 
-function TX_Master_U_Driver::new(string name = "TX_Master_U_Driver",uvm_component parent);
+function TX_Master_D_Driver::new(string name = "TX_Master_D_Driver",uvm_component parent);
         super.new(name , parent);
-        send_ap = new("send_ap",this);
-
-endfunction 
+endfunction  
 
 
-task TX_Master_U_Driver::run_phase(uvm_phase phase);
+task TX_Master_D_Driver::run_phase(uvm_phase phase);
         super.run_phase(phase);
-        `uvm_info(get_type_name() ," in run_phase of driver of TX Master U ",UVM_HIGH)
+        `uvm_info(get_type_name() ," in run_phase of driver of TX Master D ",UVM_HIGH)
         forever begin
-                //wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode =3'b100 && LPIF_vif_h.pl_linkUp );
+                if(`MAX_GEN_PCIE_D> `MAX_GEN_PCIE_U)begin
+                        wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode == `MAX_GEN_PCIE_D -1 &&LPIF_vif_h.pl_linkUp );
+                end
+                else begin
+                        wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode == `MAX_GEN_PCIE_U -1 &&LPIF_vif_h.pl_linkUp );
+                end
+                        
                 item = TX_Master_seq_item::type_id::create("item");
                 seq_item_port.get_next_item(item);
+
                 drive(item);
 
                 @(negedge LPIF_vif_h.LCLK);
-                `uvm_info(get_type_name() ," In TX_Master_U_Driver ",UVM_HIGH)
-
-
+                `uvm_info(get_type_name() ," In TX_Master_D_Driver ",UVM_HIGH)
+            
                 seq_item_port.item_done();
         end
 endtask: run_phase
 
 // in this task we send TLP and DLLP to scoreboard 
-task TX_Master_U_Driver::send_TLP_DLLP(TX_Master_seq_item item);  
-
+task TX_Master_D_Driver::send_TLP_DLLP(TX_Master_seq_item item);  
 
         if(done_TLP)begin
-                item.number_of_TLP_U++;
-                `uvm_info(get_type_name() ,$sformatf("number of TLP  from Upstream device NOW = %0d ",item.number_of_TLP_U),UVM_LOW)
+                item.number_of_TLP_D++;
+                `uvm_info(get_type_name() ,$sformatf("number of TLP from Downstream device NOW = %0d ",item.number_of_TLP_D),UVM_LOW)
 
                         item.packet_type=2'b00;
                         //send_ap.write(item);
@@ -64,9 +69,9 @@ task TX_Master_U_Driver::send_TLP_DLLP(TX_Master_seq_item item);
                         end
         else if(done_DLLP)begin
 
-                item.number_of_DLLP_U++;
+                item.number_of_DLLP_D++;
 
-                `uvm_info(get_type_name() ,$sformatf("number of DLLP from Upstream device now=  %0d",item.number_of_DLLP_U),UVM_LOW);
+                `uvm_info(get_type_name() ,$sformatf("number of DLLP from Downstream device now=  %0d",item.number_of_DLLP_D),UVM_LOW);
                         item.packet_type=2'b10;
                         //send_ap.write(item);
                         done_DLLP=0;
@@ -76,22 +81,21 @@ task TX_Master_U_Driver::send_TLP_DLLP(TX_Master_seq_item item);
 
 endtask
 
-// in this task i send TLP and DLLP and assign valid bits
+task TX_Master_D_Driver::set_valid_bits(TX_Master_seq_item item);
 
-task TX_Master_U_Driver::set_valid_bits(TX_Master_seq_item item);
         while(counter<64 && counter>=0)begin
                 // set valid bits for TLP
-                TLLP_data=item.lp_data >> (8*counter);
+                TLLP_data=item.lp_data >> (8*counter); // 16'h abcd
                 DLLP_data=item.lp_data >> (8*counter);
 
-                if(item.lp_tlpstart[counter]==1)begin
+                if(item.lp_tlpstart[counter]==1)begin // 50
                         
                         detect_TLP=1;
-                        item.lp_valid[counter]=1;
+                        item.lp_valid[counter]=1;  //
                         item.TLP.push_back(TLLP_data);
 
                 end
-                else if(item.lp_tlpend[counter]==1)begin
+                else if(item.lp_tlpend[counter]==1)begin // 20 
                         detect_TLP=0;
                         item.lp_valid[counter]=1;
                         item.TLP.push_back(TLLP_data);
@@ -133,9 +137,8 @@ task TX_Master_U_Driver::set_valid_bits(TX_Master_seq_item item);
 
 endtask
 
-
-task TX_Master_U_Driver::drive (TX_Master_seq_item item);
-     `uvm_info(get_type_name() ," in run_phase of driver of TX Master U",UVM_HIGH)
+task TX_Master_D_Driver::drive (TX_Master_seq_item item);
+         `uvm_info(get_type_name() ," in run_phase of driver of TX Master D",UVM_HIGH)
         if( item.lp_tlpstart || item.lp_dlpstart)begin
                 LPIF_vif_h.lp_irdy=1 ; 
         end
@@ -147,15 +150,8 @@ task TX_Master_U_Driver::drive (TX_Master_seq_item item);
         LPIF_vif_h.lp_tlpstart=item.lp_tlpstart  ;
         LPIF_vif_h.lp_tlpend=item.lp_tlpend  ;
         LPIF_vif_h.lp_data=item.lp_data  ;
-        LPIF_vif_h.lp_valid=  item.lp_valid;      
-               
+        LPIF_vif_h.lp_valid=  item.lp_valid; 
 endtask
-
-
-
-
-
-
 
 
 
