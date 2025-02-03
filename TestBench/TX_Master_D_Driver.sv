@@ -35,28 +35,31 @@ task TX_Master_D_Driver::run_phase(uvm_phase phase);
         super.run_phase(phase);
         `uvm_info(get_type_name() ," in run_phase of driver of TX Master D ",UVM_HIGH)
         forever begin
-                item = TX_Master_seq_item::type_id::create("item");
-                seq_item_port.get_next_item(item);
+                
                 if(`MAX_GEN_PCIE_D> `MAX_GEN_PCIE_U)begin
                         wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode == `MAX_GEN_PCIE_D -1 &&LPIF_vif_h.pl_linkUp );
+                        item = TX_Master_seq_item::type_id::create("item");
+                        seq_item_port.get_next_item(item);
+                        
                         drive(item);
 
                         @(negedge LPIF_vif_h.LCLK);
                         `uvm_info(get_type_name() ," In TX_Master_D_Driver ",UVM_HIGH)
             
-                seq_item_port.item_done();
+                        seq_item_port.item_done();
                 end
                 else begin
                         wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode == `MAX_GEN_PCIE_U -1 &&LPIF_vif_h.pl_linkUp );
+                        item = TX_Master_seq_item::type_id::create("item");
+                        seq_item_port.get_next_item(item);
+                        
                         drive(item);
 
                         @(negedge LPIF_vif_h.LCLK);
                         `uvm_info(get_type_name() ," In TX_Master_D_Driver ",UVM_HIGH)
-            
-                seq_item_port.item_done();
+                        seq_item_port.item_done();
                 end
                 
-
         end
 endtask: run_phase
 
