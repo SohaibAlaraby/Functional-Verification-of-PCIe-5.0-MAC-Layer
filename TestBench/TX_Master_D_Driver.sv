@@ -59,7 +59,7 @@ task TX_Master_D_Driver::send_TLP_DLLP(TX_Master_seq_item item);
 
         if(done_TLP)begin
                 item.number_of_TLP_D++;
-                `uvm_info(get_type_name() ,$sformatf("number of TLP from Downstream device NOW = %0d ",item.number_of_TLP_D),UVM_LOW)
+                `uvm_info(get_type_name() ,$sformatf("number of TLP from Downstream device NOW = %0d ",item.number_of_TLP_D),UVM_HIGH)
 
                         item.packet_type=2'b00;
                         //send_ap.write(item);
@@ -71,7 +71,7 @@ task TX_Master_D_Driver::send_TLP_DLLP(TX_Master_seq_item item);
 
                 item.number_of_DLLP_D++;
 
-                `uvm_info(get_type_name() ,$sformatf("number of DLLP from Downstream device now=  %0d",item.number_of_DLLP_D),UVM_LOW);
+                `uvm_info(get_type_name() ,$sformatf("number of DLLP from Downstream device now=  %0d",item.number_of_DLLP_D),UVM_HIGH);
                         item.packet_type=2'b10;
                         //send_ap.write(item);
                         done_DLLP=0;
