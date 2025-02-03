@@ -32,13 +32,6 @@ class PCIe_Test  extends uvm_test;
   LTSSM1_Config     LTSSM1_D_Config_h;
   LTSSM2_Config     LTSSM2_D_Config_h; 
 
-  TX_Slave_Config   TX_Slave_D_Config_h;
-  RX_Slave_Config   RX_Slave_D_Config_h;
- 
-
-  LTSSM1_Config     LTSSM1_D_Config_h;
-  LTSSM2_Config     LTSSM2_D_Config_h; 
-  
   TX_Master_Config  TX_Master_D_Config_h;
   TX_Master_Config  TX_Master_U_Config_h;
 
