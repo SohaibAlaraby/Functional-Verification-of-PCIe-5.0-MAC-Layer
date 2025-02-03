@@ -34,23 +34,32 @@ endfunction
 task TX_Master_U_Driver::run_phase(uvm_phase phase);
         super.run_phase(phase);
         `uvm_info(get_type_name() ," in run_phase of driver of TX Master U ",UVM_HIGH)
+
         forever begin
+                
                 if(`MAX_GEN_PCIE_D> `MAX_GEN_PCIE_U)begin
                         wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode == `MAX_GEN_PCIE_D -1 &&LPIF_vif_h.pl_linkUp );
+                        item = TX_Master_seq_item::type_id::create("item");
+                        seq_item_port.get_next_item(item);
+                        drive(item);
+
+                        @(negedge LPIF_vif_h.LCLK);
+                        `uvm_info(get_type_name() ," In TX_Master_U_Driver ",UVM_HIGH)
+
+
+                        seq_item_port.item_done();
                 end
                 else begin
                         wait(LPIF_vif_h.pl_state_sts == 1 && LPIF_vif_h.pl_speedmode == `MAX_GEN_PCIE_U -1 &&LPIF_vif_h.pl_linkUp );
+                        item = TX_Master_seq_item::type_id::create("item");
+                        seq_item_port.get_next_item(item);
+                        drive(item);
+
+                        @(negedge LPIF_vif_h.LCLK);
+                        `uvm_info(get_type_name() ," In TX_Master_U_Driver ",UVM_HIGH)
+                        seq_item_port.item_done();
                 end
                
-                item = TX_Master_seq_item::type_id::create("item");
-                seq_item_port.get_next_item(item);
-                drive(item);
-
-                @(negedge LPIF_vif_h.LCLK);
-                `uvm_info(get_type_name() ," In TX_Master_U_Driver ",UVM_HIGH)
-
-
-                seq_item_port.item_done();
         end
 endtask: run_phase
 
@@ -60,7 +69,7 @@ task TX_Master_U_Driver::send_TLP_DLLP(TX_Master_seq_item item);
 
         if(done_TLP)begin
                 item.number_of_TLP_U++;
-                `uvm_info(get_type_name() ,$sformatf("number of TLP  from Upstream device NOW = %0d ",item.number_of_TLP_U),UVM_HIGH)
+                `uvm_info(get_type_name() ,$sformatf("number of TLP  from Upstream device NOW = %0d ",item.number_of_TLP_U),UVM_LOW)
 
                         item.packet_type=2'b00;
                         //send_ap.write(item);
@@ -72,7 +81,7 @@ task TX_Master_U_Driver::send_TLP_DLLP(TX_Master_seq_item item);
 
                 item.number_of_DLLP_U++;
 
-                `uvm_info(get_type_name() ,$sformatf("number of DLLP from Upstream device now=  %0d",item.number_of_DLLP_U),UVM_HIGH);
+                `uvm_info(get_type_name() ,$sformatf("number of DLLP from Upstream device now=  %0d",item.number_of_DLLP_U),UVM_LOW);
                         item.packet_type=2'b10;
                         //send_ap.write(item);
                         done_DLLP=0;
