@@ -15,6 +15,12 @@ LTSSM1_U_Agent   LTSSM1_U_Agent_h;
 LTSSM2_D_Agent   LTSSM2_D_Agent_h;
 LTSSM2_U_Agent   LTSSM2_U_Agent_h;
 
+TX_Master_D_Agent TX_Master_D_Agent_h;
+TX_Master_U_Agent TX_Master_U_Agent_h;
+
+RX_Passive_D_Agent RX_Passive_D_Agent_h;
+RX_Passive_U_Agent RX_Passive_U_Agent_h;
+  
 Adapter          Adapter_h;
 
 //PCIe_CoverageCollector_D Cov_Col_D;
@@ -33,7 +39,13 @@ function void build_phase(uvm_phase phase);
     
     TX_Slave_D_Agent_h = TX_Slave_D_Agent::type_id::create("TX_Slave_D_Agent_h",this);
     TX_Slave_U_Agent_h = TX_Slave_U_Agent::type_id::create("TX_Slave_U_Agent_h",this);
-    
+  
+    TX_Master_D_Agent_h = TX_Master_D_Agent::type_id::create("TX_Master_D_Agent_h",this);
+    TX_Master_U_Agent_h = TX_Master_U_Agent::type_id::create("TX_Master_U_Agent",this);
+  
+    RX_Passive_D_Agent_h = RX_Passive_D_Agent::type_id::create("RX_Passive_D_Agent_h",this);
+    RX_Passive_U_Agent_h = RX_Passive_U_Agent::type_id::create("RX_Passive_U_Agent_h",this);
+  
     RX_Slave_D_Agent_h = RX_Slave_D_Agent::type_id::create("RX_Slave_D_Agent_h",this);
     RX_Slave_U_Agent_h = RX_Slave_U_Agent::type_id::create("RX_Slave_U_Agent_h",this);
     
