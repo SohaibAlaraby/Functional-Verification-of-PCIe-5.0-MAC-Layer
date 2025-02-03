@@ -47,7 +47,7 @@ PCIe #(
     .GEN3_PIPEWIDTH(32),
     .GEN4_PIPEWIDTH(32),
     .GEN5_PIPEWIDTH(32),
-    .MAX_GEN(5)
+    .MAX_GEN(`MAX_GEN_PCIE_D)
 ) PCIe_DownStream (
     // clk and reset
     .CLK(CLK),
@@ -67,11 +67,11 @@ PCIe #(
     .TxDetectRx_Loopback(PIPE_if_D_h.TxDetectRx_Loopback),
     
     // RX signals
-    .RxData(PIPE_if_D_h.TxData),
-    .RxDataValid(PIPE_if_D_h.TxDataValid),
-    .RxDataK(PIPE_if_D_h.TxDataK),
-    .RxStartBlock(PIPE_if_D_h.TxStartBlock),
-    .RxSyncHeader(PIPE_if_D_h.TxSyncHeader),
+    .RxData(PIPE_if_D_h.RxData),
+    .RxDataValid(PIPE_if_D_h.RxDataValid),
+    .RxDataK(PIPE_if_D_h.RxDataK),
+    .RxStartBlock(PIPE_if_D_h.RxStartBlock),
+    .RxSyncHeader(PIPE_if_D_h.RxSyncHeader),
     .RxStatus(PIPE_if_D_h.RxStatus),
     .RxElectricalIdle(PIPE_if_D_h.RxElectricalIdle),
     
@@ -155,7 +155,7 @@ PCIe #(
     .GEN3_PIPEWIDTH(32),
     .GEN4_PIPEWIDTH(32),
     .GEN5_PIPEWIDTH(32),
-    .MAX_GEN(5)
+    .MAX_GEN(`MAX_GEN_PCIE_U)
 ) PCIe_UpStream (
     // clk and reset
     .CLK(CLK),
@@ -175,11 +175,11 @@ PCIe #(
     .TxDetectRx_Loopback(PIPE_if_U_h.TxDetectRx_Loopback),
     
     // RX signals
-    .RxData(PIPE_if_U_h.TxData),
-    .RxDataValid(PIPE_if_U_h.TxDataValid),
-    .RxDataK(PIPE_if_U_h.TxDataK),
-    .RxStartBlock(PIPE_if_U_h.TxStartBlock),
-    .RxSyncHeader(PIPE_if_U_h.TxSyncHeader),
+    .RxData(PIPE_if_U_h.RxData),
+    .RxDataValid(PIPE_if_U_h.RxDataValid),
+    .RxDataK(PIPE_if_U_h.RxDataK),
+    .RxStartBlock(PIPE_if_U_h.RxStartBlock),
+    .RxSyncHeader(PIPE_if_U_h.RxSyncHeader),
     .RxStatus(PIPE_if_U_h.RxStatus),
     .RxElectricalIdle(PIPE_if_U_h.RxElectricalIdle),
     
@@ -244,14 +244,20 @@ PCIe #(
 
 
 
+
+
+
+
+
+
 initial begin 
 
 
  
   forever begin 
-                #20 CLK = ~CLK;
+                #2 CLK = ~CLK;
           end
-
+  
 
 end
 
@@ -286,7 +292,7 @@ end
 initial begin 
 
 
-  #400000
+  #4000000
 
   $finish();
 
