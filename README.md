@@ -1,2 +1,2 @@
-# PCIe Gen5 PHY Verification
-Functional Verification of Physical Layer of PCI Express Gen5.0 Graduation Project
+# Functional Verification of PCIe 5.0 MAC Layer
+Functional Verification of PCIe 5.0 MAC Layer Graduation Project
